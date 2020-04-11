@@ -1,33 +1,22 @@
-class character:
+from characters.character import character
+from arena.dice import dice
 
-    def __init__ (self, name, health, life):
-        self.name = name
-        self.health = health
-        self.life = life
-
-class offensive_unit(character):
-    def __init__ (self, name, health, life, attack, defense, level, enemies_killed):
+class enemy(character):
+    def __init__ (self, name, health, life, attack, defense):
         super().__init__(name, health, life)
         self.attack = attack
         self.defense = defense
-        self.level = level
-        self.enemies_killed = enemies_killed
-
-        def attack():
-            pass
 
 
-class user_warrior(offensive_unit):
-    def update_warrior():
-        pass
-
-    def set_warriorname():
-        pass
-
-    def set_skills():
-        pass
+    def __repr__(self):
+        return repr("You are facing a warrior named " + self.name + " with " + str(self.health) + " HP, " + str(self.attack) + " attack, and " + str(self.defense) + " defense")
 
 
-
-class enemy(offensive_unit):
-    pass
+    def fight(self, target):
+        throw = dice.throw_dice()
+        damage_done = self.attack + throw - target.defense
+        if damage_done >-1:
+            target.health = target.health - (self.attack + throw - target.defense)
+        else:
+            damage_done = 0
+        return (throw, damage_done)
